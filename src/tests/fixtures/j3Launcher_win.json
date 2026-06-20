@@ -1,0 +1,119 @@
+{
+    "Window": {
+        "Geometry": "631x324+943+1873"
+    },
+    "FolderTabs": [
+        {
+            "id": "legacy-home",
+            "tab_type": "manual",
+            "title": "Home",
+            "folder_path": "",
+            "rows": 5,
+            "cols": 10,
+            "hidden_item_ids": [],
+            "slot_positions": {},
+            "buttons": [
+                {
+                    "item_id": "",
+                    "source_name": "notepad.exe",
+                    "source_path": "C:\\Windows\\System32\\notepad.exe",
+                    "is_dir": false,
+                    "name": "Notepad",
+                    "path": "notepad.exe",
+                    "params": "",
+                    "admin": false,
+                    "action": 0,
+                    "auto_enter": false
+                },
+                {
+                    "item_id": "",
+                    "source_name": "cmd.exe",
+                    "source_path": "C:\\Windows\\System32\\cmd.exe",
+                    "is_dir": false,
+                    "name": "Command",
+                    "path": "cmd.exe",
+                    "params": "/K echo fixture",
+                    "admin": true,
+                    "action": 0,
+                    "auto_enter": false
+                },
+                {
+                    "item_id": "",
+                    "source_name": "",
+                    "source_path": "",
+                    "is_dir": false,
+                    "name": "Copy Text",
+                    "path": "",
+                    "params": "fixture text",
+                    "admin": false,
+                    "action": 1,
+                    "auto_enter": true
+                }
+            ]
+        },
+        {
+            "id": "fixture-tools",
+            "tab_type": "folder",
+            "title": "Tools",
+            "folder_path": "C:\\j3LauncherFixture\\Tools",
+            "rows": 2,
+            "cols": 3,
+            "hidden_item_ids": [
+                "c:\\j3launcherfixture\\tools\\hidden-tool.exe"
+            ],
+            "slot_positions": {
+                "c:\\j3launcherfixture\\tools\\visible-tool.exe": 1
+            },
+            "buttons": [
+                {
+                    "item_id": "c:\\j3launcherfixture\\tools\\folder-a",
+                    "source_name": "Folder A",
+                    "source_path": "C:\\j3LauncherFixture\\Tools\\Folder A",
+                    "is_dir": true,
+                    "name": "Folder A",
+                    "path": "C:\\j3LauncherFixture\\Tools\\Folder A",
+                    "params": "",
+                    "admin": false,
+                    "action": 0,
+                    "auto_enter": false
+                },
+                {
+                    "item_id": "c:\\j3launcherfixture\\tools\\visible-tool.exe",
+                    "source_name": "visible-tool.exe",
+                    "source_path": "C:\\j3LauncherFixture\\Tools\\visible-tool.exe",
+                    "is_dir": false,
+                    "name": "Visible Tool",
+                    "path": "C:\\j3LauncherFixture\\Tools\\visible-tool.exe",
+                    "params": "--fast",
+                    "admin": false,
+                    "action": 0,
+                    "auto_enter": false
+                },
+                {
+                    "item_id": "c:\\j3launcherfixture\\tools\\hidden-tool.exe",
+                    "source_name": "hidden-tool.exe",
+                    "source_path": "C:\\j3LauncherFixture\\Tools\\hidden-tool.exe",
+                    "is_dir": false,
+                    "name": "Hidden Tool",
+                    "path": "C:\\j3LauncherFixture\\Tools\\hidden-tool.exe",
+                    "params": "",
+                    "admin": false,
+                    "action": 0,
+                    "auto_enter": false
+                }
+            ],
+            "scan_signature": {
+                "version": 1,
+                "path": "C:\\j3LauncherFixture\\Tools",
+                "mtime_ns": 1,
+                "ctime_ns": 2,
+                "size": 3
+            },
+            "scan_item_order": [
+                "c:\\j3launcherfixture\\tools\\folder-a",
+                "c:\\j3launcherfixture\\tools\\visible-tool.exe",
+                "c:\\j3launcherfixture\\tools\\hidden-tool.exe"
+            ]
+        }
+    ]
+}
