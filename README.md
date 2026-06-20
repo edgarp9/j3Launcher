@@ -3,6 +3,9 @@
 j3Launcher is a desktop launcher for organizing frequently used applications, folders, files, and URLs into tabs and buttons.
 It uses a Win32 UI on Windows and a GTK4 UI on Linux.
 
+<img width="458" height="258" alt="j3launcher" src="https://github.com/user-attachments/assets/7ff54bf9-bff9-4714-9294-3b1f8d8fe624" />
+
+
 ## Development Notes
 
 - This project was built with AI assistance using an in-house tool.
