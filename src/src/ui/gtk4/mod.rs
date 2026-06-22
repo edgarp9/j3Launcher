@@ -27,9 +27,10 @@ use crate::app::folder_tabs::{
 };
 use crate::app::tab_actions::{self, TabMoveDirection};
 use crate::domain::{
-    APP_AUTHOR_URL, APP_DISPLAY_NAME, APP_LINUX_APPLICATION_ID, APP_VERSION, DEFAULT_BUTTON_COLS,
-    DEFAULT_BUTTON_ROWS, FolderScanResult, LauncherButton, LauncherTab, MANUAL_DEFAULT_BUTTON_COLS,
-    MANUAL_DEFAULT_BUTTON_ROWS, MAX_BUTTON_COLS, MAX_BUTTON_ROWS, ScanItem, ScanSignature, TabType,
+    APP_ABOUT_TEXT, APP_AUTHOR_URL, APP_DISPLAY_NAME, APP_LINUX_APPLICATION_ID, APP_VERSION,
+    DEFAULT_BUTTON_COLS, DEFAULT_BUTTON_ROWS, FolderScanResult, LauncherButton, LauncherTab,
+    MANUAL_DEFAULT_BUTTON_COLS, MANUAL_DEFAULT_BUTTON_ROWS, MAX_BUTTON_COLS, MAX_BUTTON_ROWS,
+    ScanItem, ScanSignature, TabType,
 };
 use crate::infra::config_store::ButtonInfo;
 use crate::infra::folder_scan::{
@@ -2191,7 +2192,8 @@ fn about_dialog(parent: &gtk::ApplicationWindow) {
         .transient_for(parent)
         .modal(true)
         .title(format!("About {APP_DISPLAY_NAME}"))
-        .default_width(360)
+        .default_width(450)
+        .default_height(350)
         .build();
     dialog.add_button("Close", gtk::ResponseType::Close);
 
@@ -2203,10 +2205,10 @@ fn about_dialog(parent: &gtk::ApplicationWindow) {
         .margin_start(18)
         .margin_end(18)
         .build();
-    let name = gtk::Label::new(Some(APP_DISPLAY_NAME));
-    name.add_css_class("title-2");
     let version = gtk::Label::new(Some(&format!("Version {APP_VERSION}")));
+    version.set_xalign(0.0);
     let link = gtk::LinkButton::with_label(APP_AUTHOR_URL, APP_AUTHOR_URL);
+    link.set_halign(gtk::Align::Start);
     let dialog_for_error = dialog.clone();
     link.connect_activate_link(move |_| {
         if let Err(error) = open_uri(APP_AUTHOR_URL) {
@@ -2219,10 +2221,22 @@ fn about_dialog(parent: &gtk::ApplicationWindow) {
         }
         glib::Propagation::Stop
     });
+    let licenses_view = gtk::TextView::new();
+    licenses_view.set_editable(false);
+    licenses_view.set_cursor_visible(false);
+    licenses_view.set_monospace(true);
+    licenses_view.set_wrap_mode(gtk::WrapMode::WordChar);
+    licenses_view.buffer().set_text(APP_ABOUT_TEXT);
+    let licenses_scrolled = gtk::ScrolledWindow::builder()
+        .hscrollbar_policy(gtk::PolicyType::Automatic)
+        .vscrollbar_policy(gtk::PolicyType::Automatic)
+        .min_content_height(160)
+        .child(&licenses_view)
+        .build();
 
-    layout.append(&name);
     layout.append(&version);
     layout.append(&link);
+    layout.append(&licenses_scrolled);
     dialog.content_area().append(&layout);
     dialog.set_default_response(gtk::ResponseType::Close);
 

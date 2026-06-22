@@ -1,10 +1,11 @@
 [package]
 name = "j3launcher"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.88"
 description = "Windows native Rust port of j3Launcher."
 readme = "README.md"
+license = "GPL-3.0-or-later"
 publish = false
 
 [dependencies]

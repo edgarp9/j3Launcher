@@ -176,6 +176,11 @@ $ID_ABOUT_NAME = 20401
 $ID_ABOUT_VERSION = 20402
 $ID_ABOUT_LINK = 20403
 $ID_ABOUT_CLOSE = 20404
+$ID_ABOUT_LICENSES = 20405
+$ID_ABOUT_LICENSE_NOTICE = 20406
+$ID_ABOUT_COPYRIGHT = 20407
+$ID_ABOUT_LICENSE_FILE = 20408
+$ID_ABOUT_SOURCE = 20409
 $VK_F5 = 0x74
 $VK_RETURN = 0x0D
 $INPUT_MOUSE = 0
@@ -471,6 +476,13 @@ function Assert-Equal {
     }
 }
 
+function Assert-Contains {
+    param([string]$Actual, [string]$Expected, [string]$Message)
+    if (-not $Actual.Contains($Expected)) {
+        throw "$Message expected text containing '$Expected', got '$Actual'"
+    }
+}
+
 function Get-CargoVersion {
     $manifest = Join-Path $RepoRoot "Cargo.toml"
     $match = Select-String -Path $manifest -Pattern '^version\s*=\s*"([^"]+)"' | Select-Object -First 1
@@ -636,7 +648,7 @@ function Assert-FolderSingleTabMenuState {
 
 function Get-WindowText {
     param([IntPtr]$Hwnd)
-    $buffer = New-Object System.Text.StringBuilder 512
+    $buffer = New-Object System.Text.StringBuilder 32768
     [void][WinSmokeUser32]::GetWindowText($Hwnd, $buffer, $buffer.Capacity)
     $buffer.ToString()
 }
@@ -1095,6 +1107,14 @@ function Get-DialogItem {
         throw "dialog item not found: title control id $ControlId"
     }
     return $item
+}
+
+function Assert-DialogItemMissing {
+    param([IntPtr]$Dialog, [int]$ControlId, [string]$Message)
+    $item = [WinSmokeUser32]::GetDlgItem($Dialog, $ControlId)
+    if ($item -ne [IntPtr]::Zero) {
+        throw $Message
+    }
 }
 
 function Get-DialogItemText {
@@ -1879,9 +1899,20 @@ Run-AppCase "about-dialog" { param($path) Write-SmokeConfig $path } {
     param($path, $app)
     Invoke-MenuCommand $app $Menu.About
     $dialog = Wait-ProcessWindow -ProcessId $app.Process.Id -Title "About j3Launcher"
-    Assert-Equal (Get-DialogItemText $dialog $ID_ABOUT_NAME) "j3Launcher" "About app name"
     Assert-Equal (Get-DialogItemText $dialog $ID_ABOUT_VERSION) ("Version " + (Get-CargoVersion)) "About version"
     Assert-Equal (Get-DialogItemText $dialog $ID_ABOUT_LINK) "https://github.com/edgarp9" "About link"
+    Assert-DialogItemMissing $dialog $ID_ABOUT_NAME "About top should not include app name"
+    Assert-DialogItemMissing $dialog $ID_ABOUT_COPYRIGHT "About top should not include copyright notice"
+    Assert-DialogItemMissing $dialog $ID_ABOUT_LICENSE_NOTICE "About top should not include GPL notice"
+    Assert-DialogItemMissing $dialog $ID_ABOUT_LICENSE_FILE "About top should not include license file notice"
+    Assert-DialogItemMissing $dialog $ID_ABOUT_SOURCE "About top should not include source notice"
+    $licensesText = Get-DialogItemText $dialog $ID_ABOUT_LICENSES
+    Assert-Contains $licensesText "j3Launcher" "About text content"
+    Assert-Contains $licensesText "THIRD_PARTY_NOTICES.txt" "About text third-party notice reference"
+    Assert-Contains $licensesText "Source code for this release" "About text source notice"
+    if ($licensesText.Contains("Resolved Cargo Packages")) {
+        throw "About lower scroll should display about.txt, not third-party audit details"
+    }
     Click-DialogButton $dialog $ID_ABOUT_CLOSE
     Invoke-MenuCommand $app $Menu.DarkTheme
     Wait-Until { [bool]((Read-Config $path).Window.DarkTheme) } "Main window did not resume commands after About"

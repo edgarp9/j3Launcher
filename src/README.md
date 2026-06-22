@@ -21,6 +21,10 @@ cargo build --release
 
 릴리스 실행 파일은 `target\release\j3launcher.exe`에 생성됩니다.
 릴리스 전 검증 기준은 위 명령 전체를 순서대로 통과하는 것입니다.
+릴리스 배포물에는 [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt), [about.txt](about.txt)를 함께 포함해야 합니다.
+바이너리를 배포할 때는 GPL-3.0-or-later의 Corresponding Source 제공 경로도 같은 배포 채널 또는 별도 안내로 제공해야 합니다.
+`build_release.py`는 release 폴더에 이 고지 파일들을 복사하고, 같은 버전의 소스 ZIP과 현재 플랫폼 바이너리 ZIP을 생성합니다.
+포함 아이콘(`icon.svg`, 파생 `icon.png`/`icon.ico`)은 Google Material Symbols `apps` 아이콘 기반 Apache-2.0 리소스로 감사되었으며, 정확한 프로젝트 반입 이력은 `THIRD_PARTY_NOTICES.txt`의 확인 필요 항목으로 남겨져 있습니다.
 
 Linux에서 같은 검증 명령을 사용할 수 있습니다. Windows cross-check 환경에서 리소스 컴파일러가 없고 Rust 코드 컴파일만 확인하려면 다음처럼 리소스 임베드를 명시적으로 건너뛸 수 있습니다.
 

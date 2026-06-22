@@ -36,24 +36,25 @@ use windows_sys::Win32::UI::WindowsAndMessaging::{
     BS_DEFPUSHBUTTON, BS_MULTILINE, BS_OWNERDRAW, BS_PUSHBUTTON, CREATESTRUCTW, CS_HREDRAW,
     CS_VREDRAW, CW_USEDEFAULT, CheckMenuItem, CreateAcceleratorTableW, CreateMenu, CreatePopupMenu,
     CreateWindowExW, DefWindowProcW, DestroyAcceleratorTable, DestroyIcon, DestroyMenu,
-    DestroyWindow, DispatchMessageW, DrawMenuBar, ES_AUTOHSCROLL, EnableMenuItem, FCONTROL, FSHIFT,
-    FVIRTKEY, GWLP_USERDATA, GetClientRect, GetCursorPos, GetDlgItem, GetDlgItemTextW, GetMessageW,
-    GetWindowLongPtrW, GetWindowRect, GetWindowTextLengthW, HACCEL, HWND_TOP, ICON_BIG, ICON_SMALL,
-    IDC_ARROW, IDCANCEL, IDOK, IDYES, IMAGE_ICON, IsDialogMessageW, IsWindow, LB_ADDSTRING,
-    LB_GETSELCOUNT, LB_GETSELITEMS, LBS_EXTENDEDSEL, LBS_NOINTEGRALHEIGHT, LR_DEFAULTSIZE,
-    LR_LOADFROMFILE, LoadCursorW, LoadImageW, MB_DEFBUTTON2, MB_ICONERROR, MB_ICONINFORMATION,
-    MB_ICONWARNING, MB_OK, MB_YESNO, MF_BYCOMMAND, MF_CHECKED, MF_ENABLED, MF_GRAYED, MF_POPUP,
-    MF_SEPARATOR, MF_STRING, MF_UNCHECKED, MSG, MessageBoxW, MoveWindow, PostMessageW,
-    PostQuitMessage, RegisterClassW, SW_HIDE, SW_SHOW, SWP_NOACTIVATE, SWP_NOSIZE, SWP_NOZORDER,
-    SendMessageW, SetForegroundWindow, SetMenu, SetWindowLongPtrW, SetWindowPos, SetWindowTextW,
-    ShowWindow, TPM_RETURNCMD, TPM_RIGHTBUTTON, TrackPopupMenu, TranslateAcceleratorW,
-    TranslateMessage, WM_CAPTURECHANGED, WM_CLOSE, WM_COMMAND, WM_CONTEXTMENU, WM_CREATE,
-    WM_CTLCOLORBTN, WM_CTLCOLORDLG, WM_CTLCOLORSTATIC, WM_DESTROY, WM_DPICHANGED, WM_DRAWITEM,
-    WM_ENTERSIZEMOVE, WM_ERASEBKGND, WM_EXITSIZEMOVE, WM_KEYDOWN, WM_LBUTTONDOWN, WM_LBUTTONUP,
-    WM_MOUSEMOVE, WM_NCCREATE, WM_NCDESTROY, WM_NOTIFY, WM_SETICON, WM_SETREDRAW, WM_SIZE,
-    WNDCLASSW, WS_BORDER, WS_CAPTION, WS_CHILD, WS_CLIPCHILDREN, WS_CLIPSIBLINGS, WS_EX_CLIENTEDGE,
-    WS_EX_DLGMODALFRAME, WS_EX_WINDOWEDGE, WS_OVERLAPPEDWINDOW, WS_POPUP, WS_SYSMENU, WS_TABSTOP,
-    WS_VISIBLE, WS_VSCROLL,
+    DestroyWindow, DispatchMessageW, DrawMenuBar, ES_AUTOHSCROLL, ES_AUTOVSCROLL, ES_MULTILINE,
+    ES_READONLY, EnableMenuItem, FCONTROL, FSHIFT, FVIRTKEY, GWLP_USERDATA, GetClientRect,
+    GetCursorPos, GetDlgItem, GetDlgItemTextW, GetMessageW, GetWindowLongPtrW, GetWindowRect,
+    GetWindowTextLengthW, HACCEL, HWND_TOP, ICON_BIG, ICON_SMALL, IDC_ARROW, IDCANCEL, IDOK, IDYES,
+    IMAGE_ICON, IsDialogMessageW, IsWindow, LB_ADDSTRING, LB_GETSELCOUNT, LB_GETSELITEMS,
+    LBS_EXTENDEDSEL, LBS_NOINTEGRALHEIGHT, LR_DEFAULTSIZE, LR_LOADFROMFILE, LoadCursorW,
+    LoadImageW, MB_DEFBUTTON2, MB_ICONERROR, MB_ICONINFORMATION, MB_ICONWARNING, MB_OK, MB_YESNO,
+    MF_BYCOMMAND, MF_CHECKED, MF_ENABLED, MF_GRAYED, MF_POPUP, MF_SEPARATOR, MF_STRING,
+    MF_UNCHECKED, MSG, MessageBoxW, MoveWindow, PostMessageW, PostQuitMessage, RegisterClassW,
+    SW_HIDE, SW_SHOW, SWP_NOACTIVATE, SWP_NOSIZE, SWP_NOZORDER, SendMessageW, SetForegroundWindow,
+    SetMenu, SetWindowLongPtrW, SetWindowPos, SetWindowTextW, ShowWindow, TPM_RETURNCMD,
+    TPM_RIGHTBUTTON, TrackPopupMenu, TranslateAcceleratorW, TranslateMessage, WM_CAPTURECHANGED,
+    WM_CLOSE, WM_COMMAND, WM_CONTEXTMENU, WM_CREATE, WM_CTLCOLORBTN, WM_CTLCOLORDLG,
+    WM_CTLCOLORSTATIC, WM_DESTROY, WM_DPICHANGED, WM_DRAWITEM, WM_ENTERSIZEMOVE, WM_ERASEBKGND,
+    WM_EXITSIZEMOVE, WM_KEYDOWN, WM_LBUTTONDOWN, WM_LBUTTONUP, WM_MOUSEMOVE, WM_NCCREATE,
+    WM_NCDESTROY, WM_NOTIFY, WM_SETICON, WM_SETREDRAW, WM_SIZE, WNDCLASSW, WS_BORDER, WS_CAPTION,
+    WS_CHILD, WS_CLIPCHILDREN, WS_CLIPSIBLINGS, WS_EX_CLIENTEDGE, WS_EX_DLGMODALFRAME,
+    WS_EX_WINDOWEDGE, WS_OVERLAPPEDWINDOW, WS_POPUP, WS_SYSMENU, WS_TABSTOP, WS_VISIBLE,
+    WS_VSCROLL,
 };
 use windows_sys::core::w;
 
@@ -71,8 +72,8 @@ use crate::app::tab_actions::{self, TabMoveDirection};
 #[cfg(test)]
 use crate::domain::tab::max_button_slot_index;
 use crate::domain::{
-    APP_AUTHOR_URL, APP_DISPLAY_NAME, APP_VERSION, DEFAULT_BUTTON_COLS, DEFAULT_BUTTON_ROWS,
-    FolderScanResult, LauncherButton, LauncherTab, MANUAL_DEFAULT_BUTTON_COLS,
+    APP_ABOUT_TEXT, APP_AUTHOR_URL, APP_DISPLAY_NAME, APP_VERSION, DEFAULT_BUTTON_COLS,
+    DEFAULT_BUTTON_ROWS, FolderScanResult, LauncherButton, LauncherTab, MANUAL_DEFAULT_BUTTON_COLS,
     MANUAL_DEFAULT_BUTTON_ROWS, MAX_BUTTON_COLS, MAX_BUTTON_ROWS, ScanSignature, TabType,
 };
 use crate::infra::config_store::ButtonInfo;
@@ -145,10 +146,10 @@ const ID_LAYOUT_CANCEL: i32 = 20_204;
 const ID_HIDDEN_LIST: i32 = 20_301;
 const ID_HIDDEN_UNHIDE: i32 = 20_302;
 const ID_HIDDEN_CLOSE: i32 = 20_303;
-const ID_ABOUT_NAME: i32 = 20_401;
 const ID_ABOUT_VERSION: i32 = 20_402;
 const ID_ABOUT_LINK: i32 = 20_403;
 const ID_ABOUT_CLOSE: i32 = 20_404;
+const ID_ABOUT_LICENSES: i32 = 20_405;
 
 const EDIT_DIALOG_CLIENT_WIDTH: i32 = 460;
 const EDIT_DIALOG_CLIENT_HEIGHT: i32 = 280;
@@ -162,8 +163,8 @@ const LAYOUT_DIALOG_CLIENT_WIDTH: i32 = 260;
 const LAYOUT_DIALOG_CLIENT_HEIGHT: i32 = 160;
 const HIDDEN_DIALOG_CLIENT_WIDTH: i32 = 360;
 const HIDDEN_DIALOG_CLIENT_HEIGHT: i32 = 280;
-const ABOUT_DIALOG_CLIENT_WIDTH: i32 = 360;
-const ABOUT_DIALOG_CLIENT_HEIGHT: i32 = 150;
+const ABOUT_DIALOG_CLIENT_WIDTH: i32 = 450;
+const ABOUT_DIALOG_CLIENT_HEIGHT: i32 = 350;
 
 const WM_SCAN_COMPLETE: u32 = windows_sys::Win32::UI::WindowsAndMessaging::WM_APP + 1;
 const WM_ICON_COMPLETE: u32 = windows_sys::Win32::UI::WindowsAndMessaging::WM_APP + 2;
@@ -4854,32 +4855,25 @@ fn create_about_controls(hwnd: HWND, state: &AboutDialogState) {
     let scale = state.dpi_scale;
     let left = scale_px(scale, 18);
     let row_height = scale_px(scale, EDIT_DIALOG_ROW_HEIGHT);
-    let content_width = scale_px(scale, 324);
-
-    create_label_with_id(
-        hwnd,
-        ID_ABOUT_NAME,
-        APP_DISPLAY_NAME,
-        left,
-        scale_px(scale, 18),
-        content_width,
-        row_height,
+    let content_width = scale_px(scale, ABOUT_DIALOG_CLIENT_WIDTH - 36);
+    let close_width = scale_px(scale, 76);
+    let close_y = scale_px(
+        scale,
+        ABOUT_DIALOG_CLIENT_HEIGHT - EDIT_DIALOG_BOTTOM_PADDING - EDIT_DIALOG_ROW_HEIGHT,
     );
+    let license_text_y = scale_px(scale, 84);
+    let license_text_height = scale_px(
+        scale,
+        ABOUT_DIALOG_CLIENT_HEIGHT - EDIT_DIALOG_BOTTOM_PADDING - EDIT_DIALOG_ROW_HEIGHT - 18 - 84,
+    );
+
     create_label_with_id(
         hwnd,
         ID_ABOUT_VERSION,
         &format!("Version {APP_VERSION}"),
         left,
-        scale_px(scale, 46),
+        scale_px(scale, 18),
         content_width,
-        row_height,
-    );
-    create_label(
-        hwnd,
-        "GitHub",
-        left,
-        scale_px(scale, 76),
-        scale_px(scale, 56),
         row_height,
     );
     create_button(
@@ -4887,21 +4881,32 @@ fn create_about_controls(hwnd: HWND, state: &AboutDialogState) {
         ID_ABOUT_LINK,
         APP_AUTHOR_URL,
         ControlRect {
-            x: scale_px(scale, 82),
-            y: scale_px(scale, 72),
-            width: scale_px(scale, 250),
+            x: left,
+            y: scale_px(scale, 46),
+            width: content_width,
             height: row_height,
         },
         false,
+    );
+    create_readonly_multiline_edit(
+        hwnd,
+        ID_ABOUT_LICENSES,
+        APP_ABOUT_TEXT,
+        ControlRect {
+            x: left,
+            y: license_text_y,
+            width: content_width,
+            height: license_text_height,
+        },
     );
     create_button(
         hwnd,
         ID_ABOUT_CLOSE,
         "Close",
         ControlRect {
-            x: scale_px(scale, 256),
-            y: scale_px(scale, 110),
-            width: scale_px(scale, 76),
+            x: scale_px(scale, ABOUT_DIALOG_CLIENT_WIDTH - 18 - 76),
+            y: close_y,
+            width: close_width,
             height: row_height,
         },
         true,
@@ -5306,6 +5311,37 @@ fn create_edit(
     }
 }
 
+fn create_readonly_multiline_edit(hwnd: HWND, id: i32, text: &str, rect: ControlRect) -> HWND {
+    let text = wide_z(&win32_multiline_text(text));
+    unsafe {
+        CreateWindowExW(
+            WS_EX_CLIENTEDGE,
+            w!("EDIT"),
+            text.as_ptr(),
+            WS_CHILD
+                | WS_VISIBLE
+                | WS_TABSTOP
+                | WS_BORDER
+                | WS_VSCROLL
+                | (ES_MULTILINE as u32)
+                | (ES_AUTOVSCROLL as u32)
+                | (ES_READONLY as u32),
+            rect.x,
+            rect.y,
+            rect.width,
+            rect.height,
+            hwnd,
+            id as _,
+            null_mut(),
+            null(),
+        )
+    }
+}
+
+fn win32_multiline_text(text: &str) -> String {
+    text.replace("\r\n", "\n").replace('\n', "\r\n")
+}
+
 fn create_checkbox(hwnd: HWND, id: i32, text: &str, rect: ControlRect, checked: bool) {
     let text = wide_z(text);
     let checkbox = unsafe {
@@ -5550,6 +5586,44 @@ mod tests {
 
             assert!(client_height >= required_bottom);
         }
+    }
+
+    #[test]
+    fn about_dialog_client_height_keeps_license_controls_visible() {
+        for scale in [1.0, 1.25, 1.5, 2.0] {
+            let client_height = scale_px(scale, ABOUT_DIALOG_CLIENT_HEIGHT);
+            let close_y = scale_px(
+                scale,
+                ABOUT_DIALOG_CLIENT_HEIGHT - EDIT_DIALOG_BOTTOM_PADDING - EDIT_DIALOG_ROW_HEIGHT,
+            );
+            let licenses_height = scale_px(
+                scale,
+                ABOUT_DIALOG_CLIENT_HEIGHT
+                    - EDIT_DIALOG_BOTTOM_PADDING
+                    - EDIT_DIALOG_ROW_HEIGHT
+                    - 18
+                    - 84,
+            );
+            let version_bottom =
+                scale_px(scale, 18).saturating_add(scale_px(scale, EDIT_DIALOG_ROW_HEIGHT));
+            let link_bottom =
+                scale_px(scale, 46).saturating_add(scale_px(scale, EDIT_DIALOG_ROW_HEIGHT));
+            let licenses_bottom = scale_px(scale, 84).saturating_add(licenses_height);
+            let close_bottom = close_y.saturating_add(scale_px(scale, EDIT_DIALOG_ROW_HEIGHT));
+
+            assert!(client_height >= version_bottom);
+            assert!(client_height >= link_bottom);
+            assert!(client_height >= licenses_bottom);
+            assert!(client_height >= close_bottom);
+        }
+    }
+
+    #[test]
+    fn win32_multiline_text_normalizes_line_endings_for_edit_control() {
+        assert_eq!(
+            win32_multiline_text("one\ntwo\r\nthree"),
+            "one\r\ntwo\r\nthree"
+        );
     }
 
     #[test]
